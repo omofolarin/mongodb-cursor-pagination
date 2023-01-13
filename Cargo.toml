@@ -1,25 +1,29 @@
 [package]
-name = "mongodb-cursor-pagination"
-version = "0.2.9"
 authors = ["Brian DeBoer <bdeboer@noreply.com>"]
-edition = "2018"
-license = "MIT"
-keywords = ["mongo", "mongodb", "database", "cursor", "pagination"]
-readme = "README.md"
-repository = "https://github.com/briandeboer/mongodb-cursor-pagination"
 description = """
 Provides cursor based pagination for the native MongoDB driver in Rust.
 """
+edition = "2018"
+keywords = ["mongo", "mongodb", "database", "cursor", "pagination"]
+license = "MIT"
+name = "mongodb-cursor-pagination"
+readme = "README.md"
+repository = "https://github.com/briandeboer/mongodb-cursor-pagination"
+version = "0.2.9"
 
 [features]
 default = []
 graphql = ["juniper"]
 
 [dependencies]
-base64 = "0.12.3"
-bson = "0.14.1"
+base64 = "0.21.0"
+bson = "2.4.0"
+futures = "0.3.25"
+juniper = {version = "0.14.2", optional = true}
 log = "0.4.11"
-mongodb = "0.9.2"
+mongodb = "2.3.1"
 serde = "1.0"
-juniper = { version = "0.14.2", optional = true }
+tokio = "1.21.2"
 
+[dev-dependencies]
+tokio-test = "0.4.2"

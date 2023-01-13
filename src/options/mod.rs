@@ -1,7 +1,7 @@
 use bson::Document;
 use mongodb::options::{CountOptions, EstimatedDocumentCountOptions, FindOptions};
 
-const DEFAULT_LIMIT: i64 = 25;
+const DEFAULT_LIMIT: u64 = 25;
 
 // FIX: This isn't the best but I can't figure out the Rc or other options to make it work yet
 #[derive(Clone, Debug)]
@@ -12,10 +12,10 @@ pub struct CursorOptions {
     pub comment: Option<String>,
     pub cursor_type: Option<mongodb::options::CursorType>,
     pub hint: Option<mongodb::options::Hint>,
-    pub limit: Option<i64>,
+    pub limit: Option<u64>,
     pub max: Option<Document>,
     pub max_await_time: Option<std::time::Duration>,
-    pub max_scan: Option<i64>,
+    pub max_scan: Option<u64>,
     pub max_time: Option<std::time::Duration>,
     pub min: Option<Document>,
     pub no_cursor_timeout: Option<bool>,
@@ -24,7 +24,7 @@ pub struct CursorOptions {
     pub return_key: Option<bool>,
     pub selection_criteria: Option<mongodb::options::SelectionCriteria>,
     pub show_record_id: Option<bool>,
-    pub skip: Option<i64>,
+    pub skip: Option<u64>,
     pub sort: Option<Document>,
 }
 
@@ -35,7 +35,7 @@ impl From<Option<FindOptions>> for CursorOptions {
             None => FindOptions::builder().build(),
         };
         let limit = match old_opts.limit {
-            Some(l) => Some(l + 1),
+            Some(l) => Some((l + 1) as u64),
             None => Some(DEFAULT_LIMIT + 1),
         };
         // check the sort
@@ -80,7 +80,7 @@ impl From<CursorOptions> for Option<FindOptions> {
             .comment(options.comment)
             .cursor_type(options.cursor_type)
             .hint(options.hint)
-            .limit(options.limit)
+            .limit(options.limit.map(|v| v as i64))
             .max(options.max)
             .max_await_time(options.max_await_time)
             .max_scan(options.max_scan)

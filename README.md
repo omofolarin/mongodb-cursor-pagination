@@ -47,15 +47,15 @@ fn main() {
     // query page 1, 2 at a time
     let mut options = create_options(2, 0);
     let mut find_results: FindResult<MyFruit> = PaginatedCursor::new(Some(options), None, None)
-        .find(&db.collection("myfruits"), None)
+         find_results = find(&paginated_cursor, &db.collection("myfruits"), None)
         .expect("Unable to find data");
     println!("First page: {:?}", find_results);
 
     // get the second page
     options = create_options(2, 0);
     let mut cursor = find_results.page_info.next_cursor;
-    find_results = PaginatedCursor::new(Some(options), cursor, Some(CursorDirections::Next))
-        .find(&db.collection("myfruits"), None)
+    let paginated_cursor = PaginatedCursor::new(Some(options), cursor, Some(CursorDirections::Next))
+         find_results = find(&paginated_cursor, &db.collection("myfruits"), None)
         .expect("Unable to find data");
     println!("Second page: {:?}", find_results);
 }
