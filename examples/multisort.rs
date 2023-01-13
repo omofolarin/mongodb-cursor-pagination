@@ -113,29 +113,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .drop(None)
             .await
             .expect("Unable to drop collection");
-
-        fn create_options(limit: i64, skip: u64) -> FindOptions {
-            FindOptions::builder()
-                .limit(limit)
-                .skip(skip)
-                .sort(doc! { "how_many": 1, "name": -1, "non_existent": 1 })
-                .build()
-        }
-
-        fn print_details(name: &str, find_results: &FindResult<MyFruit>) {
-            println!(
-                "{}:\nitems: {:?}\ntotal: {}\nnext: {:?}\nprevious: {:?}\nhas_previous: {}\nhas_next: {}",
-                name,
-                find_results.items,
-                find_results.total_count,
-                find_results.page_info.next_cursor,
-                find_results.page_info.start_cursor,
-                find_results.page_info.has_previous_page,
-                find_results.page_info.has_next_page,
-            );
-            println!("-----------------");
-        }
-    });
+    })
+    .await
+    .unwrap();
 
     Ok(())
+}
+
+fn create_options(limit: i64, skip: u64) -> FindOptions {
+    FindOptions::builder()
+        .limit(limit)
+        .skip(skip)
+        .sort(doc! { "how_many": 1, "name": -1, "non_existent": 1 })
+        .build()
+}
+
+fn print_details(name: &str, find_results: &FindResult<MyFruit>) {
+    println!(
+        "{}:\nitems: {:?}\ntotal: {}\nnext: {:?}\nprevious: {:?}\nhas_previous: {}\nhas_next: {}",
+        name,
+        find_results.docs,
+        find_results.total_docs,
+        find_results.page_info.next_cursor,
+        find_results.page_info.start_cursor,
+        find_results.page_info.has_previous_page,
+        find_results.page_info.has_next_page,
+    );
+    println!("-----------------");
 }

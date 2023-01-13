@@ -120,7 +120,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .drop(None)
             .await
             .expect("Unable to drop collection");
-    });
+    }).await.unwrap();
 
     Ok(())
 }
@@ -137,8 +137,8 @@ fn print_details(name: &str, find_results: &FindResult<MyFruit>) {
     println!(
         "{}:\nitems: {:?}\ntotal: {}\nnext: {:?}\nprevious: {:?}\nhas_previous: {}\nhas_next: {}",
         name,
-        find_results.items,
-        find_results.total_count,
+        find_results.docs,
+        find_results.total_docs,
         find_results.page_info.next_cursor,
         find_results.page_info.start_cursor,
         find_results.page_info.has_previous_page,

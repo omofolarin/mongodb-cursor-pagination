@@ -116,3 +116,9 @@ Inside your cargo.toml dependencies
 [dependencies]
 mongodb_cursor_pagination = { version = "0.2.0", features = ["graphql"] }
 ```
+
+
+
+Cursor vs offset based pagination
+
+https://engage.so/blog/a-deep-dive-into-offset-and-cursor-based-pagination-in-mongodb/#what-is-cursor-based-pagination

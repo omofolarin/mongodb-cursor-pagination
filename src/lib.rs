@@ -71,12 +71,12 @@ impl From<&Edge> for Edge {
 }
 
 /// The result of a find method with the items, edges, pagination info, and total count of objects
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FindResult<T> {
     pub page_info: PageInfo,
     pub edges: Vec<Edge>,
-    pub total_count: u64,
-    pub items: Vec<T>,
+    pub total_docs: u64,
+    pub docs: Vec<T>,
 }
 
 /// The direction of the list, ie. you are sending a cursor for the next or previous items. Defaults to Next
@@ -378,9 +378,9 @@ where
     };
     Ok(FindResult {
         page_info,
-        total_count,
+        total_docs: total_count,
         edges,
-        items,
+        docs: items,
     })
 }
 
